@@ -522,3 +522,43 @@ func (d Device) DecoderUtilization() (uint, uint, error) {
 	r := C.nvmlDeviceGetDecoderUtilization(d.dev, &n, &sp)
 	return uint(n), uint(sp), errorString(r)
 }
+
+// Clock speed for Graphics domain in MHz
+func (d Device) GraphicsClock() (uint, error) {
+	if C.nvmlHandle == nil {
+		return 0, errLibraryNotLoaded
+	}
+	var n C.uint
+	r := C.nvmlDeviceGetClockInfo(d.dev, C.NVML_CLOCK_GRAPHICS, &n)
+	return uint(n), errorString(r)
+}
+
+// Clock speed for SM domain in MHz
+func (d Device) SMClock() (uint, error) {
+	if C.nvmlHandle == nil {
+		return 0, errLibraryNotLoaded
+	}
+	var n C.uint
+	r := C.nvmlDeviceGetClockInfo(d.dev, C.NVML_CLOCK_SM, &n)
+	return uint(n), errorString(r)
+}
+
+// Clock speed for Memory domain in MHz
+func (d Device) MemoryClock() (uint, error) {
+	if C.nvmlHandle == nil {
+		return 0, errLibraryNotLoaded
+	}
+	var n C.uint
+	r := C.nvmlDeviceGetClockInfo(d.dev, C.NVML_CLOCK_MEM, &n)
+	return uint(n), errorString(r)
+}
+
+// Clock speed for Video encoder/decoder domain in MHz
+func (d Device) VideoClock() (uint, error) {
+	if C.nvmlHandle == nil {
+		return 0, errLibraryNotLoaded
+	}
+	var n C.uint
+	r := C.nvmlDeviceGetClockInfo(d.dev, C.NVML_CLOCK_VIDEO, &n)
+	return uint(n), errorString(r)
+}
